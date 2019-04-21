@@ -92,7 +92,14 @@ AND book.title = 'The Pragmatic Programmer';
 5.  
 \f1\fs26\fsmilli13333 \cf2 \cb3 \expnd0\expndtw0\kerning0
 \outl0\strokewidth0 \strokec2 Who has checked out more that 1 item?\
+\
+SELECT count_book, count_movie, name\
+   ...> FROM (\
+   ...> SELECT COUNT(checkout_item.book_id) AS count_book, COUNT(checkout_item.movie_id) AS count_movie, checkout_item.member_id, member.name FROM checkout_item, member\
+   ...> WHERE member.id = checkout_item.member_id\
+   ...> GROUP BY checkout_item.member_id)\
+   ...> WHERE (count_book > 1 OR count_movie > 1) OR (count_book = 1 AND count_movie = 1);\
 
 \f0\fs24 \cf0 \cb1 \kerning1\expnd0\expndtw0 \outl0\strokewidth0 \
-\
-==>  }
+==>  2|1|Anand Beck\
+	1|2|Frank Smith}
